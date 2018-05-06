@@ -3,10 +3,11 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Todd Kuebelbeck.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
+import math
 
 
 def main():
@@ -84,6 +85,22 @@ def draw_L(window, circle, r, c):
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
 
+    circle.attach_to(window)
+    window.render()
+
+    diameter = circle.radius*2
+    for rows in range(r):
+        temp_circle = circle
+        temp_circle.center.y = temp_circle.center.y - (diameter * rows)
+        if rows < (rows - 3):
+            for columbs in range(3):
+                temp_circle.center.x = temp_circle.center.x + (diameter * columbs)
+                temp_circle.attach_to(window)
+        else:
+            for columbs_other in range(c):
+                temp_circle.center.x = temp_circle.center.x + (diameter * columbs_other)
+        window.render()
+
 
 def run_test_draw_wall_on_right():
     """ Tests the    draw_wall_on_right    function. """
@@ -124,6 +141,31 @@ def draw_wall_on_right(rectangle, n, window):
     # TODO: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+    rectangle_width = math.fabs(rectangle.corner_2.x - rectangle.corner_1.x)
+    rectangle_height = math.fabs(rectangle.corner_2.y - rectangle.corner_1.y)
+
+    for row in range(n):
+        for col in range(row+1):
+            new_corner_1 = rectangle.corner_1
+            new_corner_1.x = rectangle.corner_1.x - (rectangle_width*col)
+
+            new_corner_2 = rectangle.corner_2
+            new_corner_2.x = rectangle.corner_2.x - (rectangle_width * col)
+
+            new_corner_1.y = rectangle.corner_1.y - (rectangle_height * row)
+            new_corner_2.y = rectangle.corner_2.y - (rectangle_height * row)
+
+            rectangle.corner_1 = new_corner_1
+            rectangle.corner_2 = new_corner_2
+
+            rectangle.attach_to(window)
+            window.render()
+
+
+
+
+
+
 
 
 # ----------------------------------------------------------------------
